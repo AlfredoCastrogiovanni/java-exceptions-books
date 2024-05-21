@@ -1,5 +1,7 @@
 package org.learning.books;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Library {
@@ -37,6 +39,7 @@ public class Library {
                     case 3:
                         System.out.println("Exiting...");
                         scanner.close();
+                        saveBookList("./resources/data.txt", bookList);
                         return;
                     default:
                         System.out.println("Invalid choice!");
@@ -44,6 +47,23 @@ public class Library {
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Enter a valid number!");
+            }
+        }
+    }
+
+    public static void saveBookList(String filePath, Book[] bookList) {
+        File file = new File(filePath);
+
+        if (!file.isFile()) {
+            System.out.println("File not found");
+        } else {
+            try (FileWriter fw = new FileWriter(file)) {
+                for (int i = 0; i < bookList.length; i++) {
+                    fw.write("--- Book " + i + "\n");
+                    fw.write(bookList[i].toString());
+                }
+            } catch (Exception e) {
+                System.out.println(e.getStackTrace());
             }
         }
     }
