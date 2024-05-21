@@ -5,6 +5,8 @@ import java.io.FileWriter;
 import java.util.Scanner;
 
 public class Library {
+
+    public static String PATH_FILE = "./resources/data.txt";
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
@@ -39,7 +41,8 @@ public class Library {
                     case 3:
                         System.out.println("Exiting...");
                         scanner.close();
-                        saveBookList("./resources/data.txt", bookList);
+                        saveBookList(PATH_FILE, bookList);
+                        readBookList(PATH_FILE);
                         return;
                     default:
                         System.out.println("Invalid choice!");
@@ -49,6 +52,22 @@ public class Library {
                 System.out.println("Enter a valid number!");
             }
         }
+    }
+
+    public static void readBookList(String filePath) {
+        Scanner scanner = null;
+        File file = new File(filePath);
+
+        try {
+            scanner = new Scanner(file);
+
+            while (scanner.hasNextLine()) {
+                System.out.println(scanner.nextLine());
+            }
+        } catch (Exception e) {
+            System.out.println(e.getStackTrace());
+        }
+        scanner.close();
     }
 
     public static void saveBookList(String filePath, Book[] bookList) {
